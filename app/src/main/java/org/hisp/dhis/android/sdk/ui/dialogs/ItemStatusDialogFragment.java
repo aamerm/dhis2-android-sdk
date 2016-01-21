@@ -72,6 +72,7 @@ import org.hisp.dhis.android.sdk.persistence.models.TrackedEntityInstance;
 import org.hisp.dhis.android.sdk.persistence.preferences.ResourceType;
 import org.hisp.dhis.android.sdk.ui.views.FontTextView;
 import org.hisp.dhis.android.sdk.utils.LogUtils;
+import org.hisp.dhis.android.sdk.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -202,7 +203,7 @@ public abstract class ItemStatusDialogFragment extends DialogFragment
                                 }
                             }
                         }
-                        mDetails.setText(details);
+//                        mDetails.setText(details);
                     }
                 }
                     break;
@@ -291,6 +292,12 @@ public abstract class ItemStatusDialogFragment extends DialogFragment
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.sync_dialog_button) {
+            if(!NetworkUtils.checkConnection(getActivity())) {
+                Toast.makeText(getActivity(), getString(R.string.no_network_connection), Toast.LENGTH_LONG).show();
+                ItemStatusDialogFragment.this.dismiss();
+                return;
+            }
+
             Toast.makeText(getActivity(), getString(R.string.sending_data_server), Toast.LENGTH_LONG).show();
             sendToServer(mForm.getItem(), this);
             ItemStatusDialogFragment.this.dismiss();
