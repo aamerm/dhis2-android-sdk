@@ -41,6 +41,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.otto.Subscribe;
@@ -54,6 +55,7 @@ import org.hisp.dhis.android.sdk.network.Credentials;
 import org.hisp.dhis.android.sdk.persistence.preferences.AppPreferences;
 import org.hisp.dhis.android.sdk.network.APIException;
 import org.hisp.dhis.android.sdk.persistence.preferences.ResourceType;
+import org.hisp.dhis.android.sdk.utils.NetworkUtils;
 import org.hisp.dhis.android.sdk.utils.UiUtils;
 
 /**
@@ -164,6 +166,10 @@ public class LoginActivity extends Activity implements OnClickListener {
     }
 
     public void login(String serverUrl, String username, String password) {
+        if(!NetworkUtils.checkConnection(this)){
+            Toast.makeText(this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+            return;
+        }
         showProgress();
         HttpUrl serverUri = HttpUrl.parse(serverUrl);
         if(serverUri == null) {

@@ -52,6 +52,7 @@ import org.hisp.dhis.android.sdk.controllers.PeriodicSynchronizerController;
 import org.hisp.dhis.android.sdk.events.LoadingMessageEvent;
 import org.hisp.dhis.android.sdk.events.UiEvent;
 import org.hisp.dhis.android.sdk.persistence.Dhis2Application;
+import org.hisp.dhis.android.sdk.utils.NetworkUtils;
 import org.hisp.dhis.android.sdk.utils.UiUtils;
 
 /**
@@ -138,6 +139,11 @@ public class SettingsFragment extends Fragment
         } else if (view.getId() == R.id.settings_sync_button) {
             if (isAdded()) {
                 final Context context = getActivity().getBaseContext();
+                if(!NetworkUtils.checkConnection(context)){
+                    Toast.makeText(context, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Toast.makeText(context, getString(R.string.syncing), Toast.LENGTH_SHORT).show();
 
                 new Thread() {

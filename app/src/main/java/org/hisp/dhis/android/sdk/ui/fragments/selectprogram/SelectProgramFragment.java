@@ -66,6 +66,7 @@ import org.hisp.dhis.android.sdk.ui.dialogs.AutoCompleteDialogFragment;
 import org.hisp.dhis.android.sdk.ui.dialogs.OrgUnitDialogFragment;
 import org.hisp.dhis.android.sdk.ui.dialogs.ProgramDialogFragment;
 import org.hisp.dhis.android.sdk.ui.views.CardTextViewButton;
+import org.hisp.dhis.android.sdk.utils.NetworkUtils;
 import org.hisp.dhis.android.sdk.utils.api.ProgramType;
 
 import java.util.List;
@@ -288,6 +289,11 @@ public abstract class SelectProgramFragment extends Fragment
     @Override
     public void onRefresh() {
         if (isAdded()) {
+            if(!NetworkUtils.checkConnection(getActivity())){
+                Toast.makeText(getActivity(), getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+                setRefreshing(false);
+                return;
+            }
             Context context = getActivity().getBaseContext();
             Toast.makeText(context, getString(R.string.syncing), Toast.LENGTH_SHORT).show();
             DhisService.synchronize(context);

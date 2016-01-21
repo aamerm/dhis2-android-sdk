@@ -28,6 +28,9 @@
 
 package org.hisp.dhis.android.sdk.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.raizlabs.android.dbflow.structure.BaseModel;
@@ -218,6 +221,27 @@ public class NetworkUtils {
                 conflict.save();
             }
         }
-        Log.d("NetworkUtils", "saved item: " + failedItem.getItemId()+ ":" + failedItem.getItemType());
+        Log.d("NetworkUtils", "saved item: " + failedItem.getItemId() + ":" + failedItem.getItemType());
+    }
+    public static boolean isConnectedWifi(Context context){
+        NetworkInfo info = NetworkUtils.getNetworkInfo(context);
+        return (info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI);
+    }
+
+    public static NetworkInfo getNetworkInfo(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo();
+    }
+
+    public static boolean checkConnection(Context context) {
+        ConnectivityManager cManager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = cManager.getActiveNetworkInfo();
+        if (networkInfo == null || !networkInfo.isConnected()
+                || !networkInfo.isAvailable()) {
+            return false;
+        }
+        return true;
     }
 }

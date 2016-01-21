@@ -222,6 +222,7 @@
     <string name="status_error_description">Something went wrong. Please, try to re-upload event or contact administrator.</string>
     <string name="copied_text">Copied text to clipboard.</string>
     <string name="network_error">Network error</string>
+    <string name="no_network_connection">No network connection</string>
     <string name="error_description">Error description</string>
 
     <!--  Error log storage on device -->
