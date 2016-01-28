@@ -48,6 +48,7 @@ import org.hisp.dhis.android.sdk.utils.support.DateUtils;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,7 +141,8 @@ public class Event extends BaseSerializableModel {
         this.status = status;
         this.trackedEntityInstance = trackedEntityInstanceId;
         this.enrollment = enrollment;
-
+        this.created = DateUtils.getLongGmtDateString(Calendar.getInstance().getTime());
+        this.lastUpdated = DateUtils.getLongGmtDateString(Calendar.getInstance().getTime());
         if (dateOfEnrollment != null) {
             LocalDate currentDateTime = new LocalDate(DateUtils.parseDate(dateOfEnrollment));
             this.dueDate = currentDateTime.plusDays(programStage.getMinDaysFromStart()).toString();
