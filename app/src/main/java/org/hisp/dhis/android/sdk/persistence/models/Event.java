@@ -120,6 +120,10 @@ public class Event extends BaseSerializableModel {
     @Column(name = "dueDate")
     String dueDate;
 
+    @JsonIgnore
+    @Column(name = "creationDate")
+    String creationDate;
+
     @JsonProperty("dataValues")
     List<DataValue> dataValues;
 
@@ -141,8 +145,8 @@ public class Event extends BaseSerializableModel {
         this.status = status;
         this.trackedEntityInstance = trackedEntityInstanceId;
         this.enrollment = enrollment;
-        this.created = DateUtils.getLongGmtDateString(Calendar.getInstance().getTime());
-        this.lastUpdated = DateUtils.getLongGmtDateString(Calendar.getInstance().getTime());
+        this.creationDate = DateUtils.getLongGmtDateString(Calendar.getInstance().getTime());
+
         if (dateOfEnrollment != null) {
             LocalDate currentDateTime = new LocalDate(DateUtils.parseDate(dateOfEnrollment));
             this.dueDate = currentDateTime.plusDays(programStage.getMinDaysFromStart()).toString();
@@ -344,5 +348,13 @@ public class Event extends BaseSerializableModel {
     @JsonIgnore
     public void setUid(String uid) {
         this.event = uid;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
     }
 }

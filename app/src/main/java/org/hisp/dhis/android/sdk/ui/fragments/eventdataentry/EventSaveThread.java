@@ -114,6 +114,7 @@ public class EventSaveThread extends AsyncHelperThread {
         tempEvent.setUid(event.getUid());
         tempEvent.setName(event.getName());
         tempEvent.setDisplayName(event.getDisplayName());
+        tempEvent.setCreationDate(event.getCreationDate());
         tempEvent.setCreated(event.getCreated());
         tempEvent.setLastUpdated(event.getLastUpdated());
         tempEvent.setAccess(event.getAccess());
